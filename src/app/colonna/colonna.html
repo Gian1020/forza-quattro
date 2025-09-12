@@ -1,0 +1,17 @@
+<div class="colonna" (click)="inserisciPedina()">
+    @for(pallino of pallini; track pallino){
+        @switch(pallino){
+            @case(0){
+                <div class="pallino"></div>
+            }
+            @case(1){
+                <div class="pallino rosso"></div>
+            }
+            @case(2){
+                
+                <div class="pallino giallo"></div>
+            
+            }
+        }
+    }
+</div>

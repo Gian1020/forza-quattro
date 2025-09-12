@@ -1,0 +1,24 @@
+.colonna{
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+    background-color: burlywood;
+    height: 620px;
+
+}
+
+.pallino{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-color: white;
+
+}
+.rosso{
+    background-color: red;
+}
+.giallo{
+    background-color:yellow;
+}

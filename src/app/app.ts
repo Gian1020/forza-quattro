@@ -10,10 +10,67 @@ import { Colonna } from './colonna/colonna';
 })
 export class App {
   protected readonly title = signal('forza-quattro');
-  giocatoreDiTurno:number = 1;
+  giocatoreDiTurno=1;
+  griglia:number[][] = [
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0]
+  ]
+  flag: boolean= false;
 
-  cambiaGiocatore(){
+  checkWinner(columnId:number, palliniColonna: number[]){
+    let ultimaPallinoInserito =  this.individuaUltimoPallino(palliniColonna);
+    //aggiorna colonna
+    this.griglia[columnId]= palliniColonna;
+    let sequenza = 0;
+    
+
+    // controllo su colonna
+    for(let pallino of palliniColonna){
+      if(pallino== this.giocatoreDiTurno){
+        sequenza++;
+        if(sequenza==4){
+          this.flag=true;
+          return;
+        }
+
+      }
+      else{
+        sequenza=0;
+      }
+    }
+
+    //controllo riga
+    sequenza=0;
+    for(let numeroColonna in this.griglia){
+      if(this.griglia[numeroColonna][ultimaPallinoInserito]== this.giocatoreDiTurno){
+        sequenza++;
+      
+      if(sequenza==4){
+          this.flag=true;
+          return;
+        }
+
+      }
+      else{
+        sequenza=0;
+      }
+    }
+    
+
     this.giocatoreDiTurno = 3- this.giocatoreDiTurno;
   }
+  
+  individuaUltimoPallino(array: number[]): number{
+    for(let i = 1; i<array.length; i++){
+      return i -1;
+    }
+    return array.length-1;
+  }
+  
 }
 

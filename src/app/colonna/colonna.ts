@@ -9,7 +9,7 @@ import { Component,EventEmitter,Input, Output} from '@angular/core';
 })
 export class Colonna {
   @Input() giocatore!:number;
-  @Output() urla = new EventEmitter<void>();
+  @Output() urla = new EventEmitter<number[]>();
   
   
   pallini:number[]=[0,0,0,0,0,0];
@@ -18,12 +18,9 @@ export class Colonna {
     for(let index in this.pallini){
       if(this.pallini[index] ==0){
         this.pallini[index] =this.giocatore;
-
-        this.urla.emit();
+        this.urla.emit(this.pallini);
         break;
       }
-
-
     }
   }
 

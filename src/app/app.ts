@@ -23,7 +23,7 @@ export class App {
   flag: boolean= false;
 
   checkWinner(columnId:number, palliniColonna: number[]){
-    let ultimaPallinoInserito =  this.individuaUltimoPallino(palliniColonna);
+    let ultimoIndexPallinoInserito =  this.individuaUltimoPallino(palliniColonna);
     //aggiorna colonna
     this.griglia[columnId]= palliniColonna;
     let sequenza = 0;
@@ -47,7 +47,7 @@ export class App {
     //controllo riga
     sequenza=0;
     for(let numeroColonna in this.griglia){
-      if(this.griglia[numeroColonna][ultimaPallinoInserito]== this.giocatoreDiTurno){
+      if(this.griglia[numeroColonna][ultimoIndexPallinoInserito]== this.giocatoreDiTurno){
         sequenza++;
       
       if(sequenza==4){
@@ -60,6 +60,25 @@ export class App {
         sequenza=0;
       }
     }
+
+    //controllo diagonale
+    switch (true) {
+      
+    case(ultimoIndexPallinoInserito<3 && columnId<3):
+
+    case(ultimoIndexPallinoInserito==3 && columnId==2):
+
+    case(ultimoIndexPallinoInserito<3 && columnId>3):
+
+    case(ultimoIndexPallinoInserito==3 && columnId>3):
+
+    case(ultimoIndexPallinoInserito==3 && columnId<3):
+
+    
+    
+    }
+    
+    
     
 
     this.giocatoreDiTurno = 3- this.giocatoreDiTurno;

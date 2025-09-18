@@ -1,19 +1,34 @@
-<div class="griglia" style="position: absolute; top: 50%; left: 50%; transform:translate(-50%, -50%);">
-    <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(0, $event)"></app-colonna>
-    <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(1, $event)"></app-colonna>
-    <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(2, $event)"></app-colonna>
-    <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(3, $event)"></app-colonna>
-    <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(4, $event)"></app-colonna>
-    <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(5, $event)"></app-colonna>
-    <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(6, $event)"></app-colonna>
+<div class="contenitore">
+    <h1>Forza quattro</h1>
+    <div class="griglia">
+        <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(0, $event)"></app-colonna>
+        <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(1, $event)"></app-colonna>
+        <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(2, $event)"></app-colonna>
+        <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(3, $event)"></app-colonna>
+        <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(4, $event)"></app-colonna>
+        <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(5, $event)"></app-colonna>
+        <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(6, $event)"></app-colonna>
+    </div>
+    <div class="riga-giocatori">
+        <div [ngClass]="{
+      'giocatore1': giocatoreDiTurno === 1,
+      'default': giocatoreDiTurno !== 1 && giocatoreDiTurno !== 2
+    }"><fa-icon [icon]="faUser"></fa-icon><span>Giocatore1</span> </div>
+        <div [ngClass]="{
+      
+      'giocatore2': giocatoreDiTurno === 2,
+      'default': giocatoreDiTurno !== 1 && giocatoreDiTurno !== 2
+    }"><fa-icon [icon]="faUser"></fa-icon><span>Giocatore2</span></div>
+    </div>
 </div>
+
 
 @if(flag){
 
-<div style="position: absolute; top: 50%; left: 50%; transform:translate(-50%, -50%); display: flex; justify-content: center; align-items: center;">
-    <h2 style="padding:20px 10px; background-color: white; border: 2px solid black; color:black; "> Ha vinto il
-        giocatore {{this.giocatoreDiTurno}}</h2>
+<div class="contenitore-modal-win">
+    <h2 class="modal-win"> Ha vinto il
+         <fa-icon [icon]="faUser"></fa-icon> Giocatore {{this.giocatoreDiTurno}}</h2>
 </div>
-</div>
+
 }
 <router-outlet />

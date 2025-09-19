@@ -1,0 +1,16 @@
+<div>
+    <div>
+        <h1>Sala Giochi</h1>
+
+        <div>
+            <label for="forza-quattro">
+                <input type="radio" name="Giochi" id="forza-quattro" value="forza-quattro" [(ngModel)]="giocoScelto">forza-quattro
+            </label>
+            <label for="memory">
+                <input type="radio" name="Giochi" id="memory" value="forza-quattro" [(ngModel)]="giocoScelto">memory
+            </label>
+        </div>
+
+        <div (click)="inizioGioco()">Start</div>
+    </div>
+</div>

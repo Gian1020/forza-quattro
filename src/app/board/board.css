@@ -92,3 +92,20 @@
 .giocatore{
   font-size: 30px;
 }
+
+#cont-titolo{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 20px;
+    
+}
+#titolo{
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#home{
+    font-size: 40px;
+    display: inline-flex; 
+}

@@ -1,16 +1,30 @@
-import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule],
+  imports: [],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {
-  @Input() giocoScelto!:string; 
+export class Home { 
+private router = inject(Router);
 
   inizioGioco(giocoScelto:string){
+    switch(giocoScelto){
+    case 'forzaquattro':
+      this.router.navigate(['/forzaQuattro']);
+      break;
+     
+    case 'memory':
+      this.router.navigate(['/memory']);
+      break;
+
+    default:
+      this.router.navigate(['']);
+    }
+    
     
   }
 }

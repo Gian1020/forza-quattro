@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Card } from '../interfacce/card';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHouse} from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-board',
   imports: [CommonModule,FontAwesomeModule],
@@ -19,6 +20,7 @@ export class Board implements OnInit {
   isFlipped: boolean = false;
   lock: boolean = false;
   faUser= faUser;
+  faHouse=faHouse
 
   constructor(private cdRef: ChangeDetectorRef) {}
 
@@ -119,6 +121,12 @@ export class Board implements OnInit {
       else this.punteggioGiocatore2++;
       this.contatoreClick = 0;
     }
+
+  }
+  private router = inject(Router);
+
+  tornaHome(){
+    this.router.navigate(['']);
 
   }
 

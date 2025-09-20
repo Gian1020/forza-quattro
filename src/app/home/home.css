@@ -1,0 +1,82 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+}
+.nav{
+    background-color: blue;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#header{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.contenitore{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 50px;
+    margin-top: 130px;
+}
+#titolo{
+    font-size: 50px;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+}
+
+#cont-card{
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.card {
+ width: 200px;
+ height: 254px;
+ box-shadow: 0 10px 10px rgba(0, 0, 0, 0.212);
+ background: #fff;
+ display: flex;
+ border-radius: 20px;
+ justify-content: center;
+ position: relative;
+ transition: all .4s;
+}
+
+.card::before {
+ content: attr(data-text);
+ letter-spacing: 0.2em;
+ position: absolute;
+ bottom: 8px;
+ left: 20px;
+ color: rgb(51, 51, 51);
+ font-size: 0.8em;
+ font-weight: 700;
+}
+
+.card div {
+ width: 100%;
+ height: 100%;
+ border-radius: 20px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+ cursor: pointer;
+ z-index: 10;
+ transition: all .4s;
+ background-color: #fff;
+}
+
+
+.card:hover div {
+ transform: translateY(-40px);
+}

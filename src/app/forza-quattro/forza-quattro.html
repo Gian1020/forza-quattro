@@ -1,5 +1,5 @@
 <div class="contenitore">
-    <h1>Forza quattro</h1>
+    <div id="cont-titolo"><div id="titolo">Forza quattro</div> <fa-icon [icon]="faHouse" id="home" (click)= "tornaHome()"></fa-icon></div>
     <div class="griglia">
         <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(0, $event)"></app-colonna>
         <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(1, $event)"></app-colonna>
@@ -9,7 +9,7 @@
         <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(5, $event)"></app-colonna>
         <app-colonna [giocatore]="giocatoreDiTurno" (urla)="checkWinner(6, $event)"></app-colonna>
     </div>
-    <div class="riga-giocatori">
+    <div id="riga-giocatori">
         <div [ngClass]="{
       'giocatore1': giocatoreDiTurno === 1
     }"><fa-icon [icon]="faUser"></fa-icon><span>Giocatore1</span> </div>
@@ -24,7 +24,7 @@
 @if(flag){
 
 <div class="contenitore-modal-win">
-    <h2 class="modal-win"> Ha vinto il
+    <h2 class="modal-win"> Hai  vinto
          <fa-icon [icon]="faUser"></fa-icon> Giocatore {{this.giocatoreDiTurno}}</h2>
 </div>
 

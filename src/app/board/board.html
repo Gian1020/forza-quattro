@@ -18,7 +18,7 @@
     </div>
 
     <div id="punteggio">
-        <h1 style="font-size: 60px;">Memory</h1>
+        <div id="cont-titolo"><div id="titolo">Memory</div> <fa-icon [icon]="faHouse" id="home" (click)= "tornaHome()"></fa-icon></div>
         <div class="giocatore" [ngClass]="{
       'giocatore1': turnoGiocatore1
     }"><fa-icon [icon]="faUser"></fa-icon><span>Giocatore1: {{punteggioGiocatore1}}</span> </div>

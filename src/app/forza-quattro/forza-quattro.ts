@@ -1,8 +1,10 @@
-import { Component} from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHouse} from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import { Colonna } from '../colonna/colonna';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-forza-quattro',
@@ -11,7 +13,8 @@ import { Colonna } from '../colonna/colonna';
   styleUrl: './forza-quattro.css'
 })
 export class ForzaQuattro {
-
+  faUser = faUser;
+  faHouse = faHouse;
   giocatoreDiTurno=1;
   griglia:number[][] = [
     [0,0,0,0,0,0],
@@ -23,7 +26,7 @@ export class ForzaQuattro {
     [0,0,0,0,0,0]
   ]
   flag: boolean= false;
-  faUser = faUser;
+  
   checkWinner(columnId:number, palliniColonna: number[]){
     let ultimoIndexPallinoInserito =  this.individuaUltimoPallino(palliniColonna);
     //aggiorna colonna
@@ -94,5 +97,12 @@ export class ForzaQuattro {
     }
     }
     return array.length-1;
+  }
+
+  private router = inject(Router);
+
+  tornaHome(){
+    this.router.navigate(['']);
+
   }
 }

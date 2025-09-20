@@ -1,10 +1,10 @@
 .colonna{
     display: flex;
     flex-direction: column-reverse;
-    gap: 3px;
+    gap: 5px;
     align-items: center;
     justify-content: center;
-    background-color: burlywood;
+    background-color: blue;
     height: 620px;
 
 }

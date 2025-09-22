@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, contentChild, EventEmitter, inject, Output } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser, faHouse, faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
@@ -28,72 +28,136 @@ export class ForzaQuattro {
   ]
   flag: boolean = false;
   deviResettare: boolean = false;
-  sequenza: number = 0
+  
   checkWinner(idColonna: number, palliniColonna: number[]) {
-    let ultimoIndexPallinoInserito = this.individuaUltimoPallino(palliniColonna);
+    let indexUltimoPallinoInserito = this.individuaUltimoPallino(palliniColonna);
     //aggiorna colonna
     this.griglia[idColonna] = palliniColonna;
-
-
+    let sequenza: number = 0;
 
     // controllo su colonna
     for (let pallino of palliniColonna) {
       if (pallino == this.giocatoreDiTurno) {
-        this.sequenza++;
-        if (this.sequenza == 4) {
+        sequenza++;
+        if (sequenza == 4) {
           this.flag = true;
           return;
         }
-
       }
       else {
-        this.sequenza = 0;
+        sequenza = 0;
       }
     }
-
 
     //controllo riga
-    this.sequenza = 0;
+    sequenza = 0;
     for (let numeroColonna in this.griglia) {
-      if (this.griglia[numeroColonna][ultimoIndexPallinoInserito] == this.giocatoreDiTurno) {
-        this.sequenza++;
-
-
-        if (this.sequenza == 4) {
+      if (this.griglia[numeroColonna][indexUltimoPallinoInserito] == this.giocatoreDiTurno) {
+        sequenza++;
+        if (sequenza == 4) {
           this.flag = true;
           return;
         }
-
       }
       else {
-        this.sequenza = 0;
+        sequenza = 0;
       }
     }
 
 
-    let contatore = 0;
-    console.log(this.griglia[idColonna][ultimoIndexPallinoInserito]);
-    console.log(this.griglia[idColonna + 1][ultimoIndexPallinoInserito + 1]);
+    let ultimoPallinoInserito: number = this.griglia[idColonna][indexUltimoPallinoInserito];
 
+    let col = idColonna;
+    let riga = indexUltimoPallinoInserito;
+    let contatore: number = 1;
 
+    // let pallinoDaControllare1 = this.griglia[col + 1][riga + 1];
+    // let pallinoDaControllare2 = this.griglia[col - 1][riga + 1];
+    // let pallinoDaControllare4 = this.griglia[col + 1][riga - 1];
+    // let pallinoDaControllare3 = this.griglia[col - 1][riga - 1];
 
-    //controllo diagonale
-    for (let i = 0; i < idColonna - 1; i++) {
-      if (this.griglia[idColonna][ultimoIndexPallinoInserito] == this.griglia[idColonna + 1][++ultimoIndexPallinoInserito + 1] && this.griglia[idColonna][ultimoIndexPallinoInserito] != 0) {
-        contatore++
-        console.log(contatore, "contatore");
+    //console.log("pallino alto xd", pallinoDaControllare1);
+    // console.log("pallino alto xs", pallinoDaControllare2);
+    // console.log("pallino basso xs", pallinoDaControllare3);
+    // console.log("pallino basso xd", pallinoDaControllare4);
 
-        if (contatore == 4) {
-          console.log("vinto");
-        }
+    //console.log("pallino Inserito", ultimoPallinoInserito);
 
+    // diagonale basso xs
+    for (let i = 1; i < 4; i++) {
+      if (this.griglia[col + i] !== undefined &&
+          this.griglia[col + i][riga + i] !== undefined &&
+          ultimoPallinoInserito == this.griglia[col + i][riga + i]) {
+          
+            contatore++;
+
+            if(contatore==4){
+              this.flag = true;
+              return;
+            }
+      
+          } else {
+        contatore = 1;
+        break;
       }
     }
-    //console.log(idColonna);
-    //console.log(ultimoIndexPallinoInserito);   
-    //console.log(lastPallino);
 
+    //diagonale alto xd
+    for (let i = 1; i < 4; i++) {
+      if (this.griglia[col - i] !== undefined &&
+          this.griglia[col - i][riga - i] !== undefined &&
+          ultimoPallinoInserito == this.griglia[col - i][riga - i]) {
+      
+            contatore++;
 
+            if(contatore==4){
+              this.flag = true;
+              return;
+            }
+        } 
+      else {
+        contatore = 1;
+        break;
+      }
+    }
+
+    //diagonale alto xd
+    for (let i = 1; i < 4; i++) {
+      if (this.griglia[col + i] !== undefined &&
+          this.griglia[col + i][riga - i] !== undefined &&
+          ultimoPallinoInserito == this.griglia[col + i][riga - i]) {
+        
+          contatore++;
+
+          if(contatore==4){
+              this.flag = true;
+              return;
+            }
+      
+      }
+       else {
+        contatore = 1;
+        break;
+      }
+    }
+
+    //diagonale basso xd
+    for (let i = 1; i < 4; i++) {
+      if (this.griglia[col - i] !== undefined &&
+          this.griglia[col - i][riga + i] !== undefined &&
+          ultimoPallinoInserito == this.griglia[col - i][riga + i]) {
+        
+            contatore++;
+            if(contatore==4){
+              this.flag = true;
+              return;
+            }
+           } 
+      else {
+        contatore = 1;
+        break;
+      }
+    }
 
     this.giocatoreDiTurno = 3 - this.giocatoreDiTurno;
   }
@@ -110,10 +174,12 @@ export class ForzaQuattro {
   reset() {
     if (this.flag) {
       this.deviResettare = true;
-      this.sequenza
       this.flag = false;
       this.giocatoreDiTurno = 1;
-    }
+    
+    setTimeout(() => {
+      this.deviResettare = false;
+    });}
   }
 
   private router = inject(Router);

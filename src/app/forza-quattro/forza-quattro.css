@@ -75,7 +75,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 25px;
     flex-direction: column;
 }
 
@@ -83,22 +83,22 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 25px;
 }
 
 .home-modal{
-  font-size: 25px;
+  font-size: 30px;
   font-weight: bold;
 }
 
 .reset{
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
 
 }
 
 .scritta-modal{
-  font-size: 25px;
+  font-size: 35px;
 }
 
 .giocatore1 {

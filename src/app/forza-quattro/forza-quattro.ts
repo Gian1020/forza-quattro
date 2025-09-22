@@ -1,6 +1,6 @@
-import { Component, inject} from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faUser, faHouse} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHouse, faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import { Colonna } from '../colonna/colonna';
 import { Router } from '@angular/router';
@@ -8,100 +8,117 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forza-quattro',
-  imports: [Colonna,FontAwesomeModule,CommonModule],
+  imports: [Colonna, FontAwesomeModule, CommonModule],
   templateUrl: './forza-quattro.html',
   styleUrl: './forza-quattro.css'
 })
 export class ForzaQuattro {
   faUser = faUser;
   faHouse = faHouse;
-  giocatoreDiTurno=1;
-  griglia:number[][] = [
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0]
+  faArrowRotateRight = faArrowRotateRight;
+  giocatoreDiTurno = 1;
+  griglia: number[][] = [
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0]
   ]
-  flag: boolean= false;
-  
-  checkWinner(columnId:number, palliniColonna: number[]){
-    let ultimoIndexPallinoInserito =  this.individuaUltimoPallino(palliniColonna);
+  flag: boolean = false;
+  deviResettare: boolean = false;
+  sequenza: number = 0
+  checkWinner(idColonna: number, palliniColonna: number[]) {
+    let ultimoIndexPallinoInserito = this.individuaUltimoPallino(palliniColonna);
     //aggiorna colonna
-    this.griglia[columnId]= palliniColonna;
-    let sequenza = 0;
-    
-   console.log(ultimoIndexPallinoInserito);
-    
+    this.griglia[idColonna] = palliniColonna;
+
+
 
     // controllo su colonna
-    for(let pallino of palliniColonna){
-      if(pallino== this.giocatoreDiTurno){
-        sequenza++;
-        if(sequenza==4){
-          this.flag=true;
+    for (let pallino of palliniColonna) {
+      if (pallino == this.giocatoreDiTurno) {
+        this.sequenza++;
+        if (this.sequenza == 4) {
+          this.flag = true;
           return;
         }
 
       }
-      else{
-        sequenza=0;
+      else {
+        this.sequenza = 0;
       }
     }
 
 
     //controllo riga
-    sequenza=0;
-    for(let numeroColonna in this.griglia){
-      if(this.griglia[numeroColonna][ultimoIndexPallinoInserito]== this.giocatoreDiTurno){
-        sequenza++;
-        
-        
-      if(sequenza==4){
-          this.flag=true;
+    this.sequenza = 0;
+    for (let numeroColonna in this.griglia) {
+      if (this.griglia[numeroColonna][ultimoIndexPallinoInserito] == this.giocatoreDiTurno) {
+        this.sequenza++;
+
+
+        if (this.sequenza == 4) {
+          this.flag = true;
           return;
         }
 
       }
-      else{
-        sequenza=0;
+      else {
+        this.sequenza = 0;
       }
     }
 
+
+    let contatore = 0;
+    console.log(this.griglia[idColonna][ultimoIndexPallinoInserito]);
+    console.log(this.griglia[idColonna + 1][ultimoIndexPallinoInserito + 1]);
+
+
+
     //controllo diagonale
-    switch (true) {
-      
-    case(ultimoIndexPallinoInserito<3 && columnId<3):
+    for (let i = 0; i < idColonna - 1; i++) {
+      if (this.griglia[idColonna][ultimoIndexPallinoInserito] == this.griglia[idColonna + 1][++ultimoIndexPallinoInserito + 1] && this.griglia[idColonna][ultimoIndexPallinoInserito] != 0) {
+        contatore++
+        console.log(contatore, "contatore");
 
-    case(ultimoIndexPallinoInserito==3 && columnId==2):
+        if (contatore == 4) {
+          console.log("vinto");
+        }
 
-    case(ultimoIndexPallinoInserito<3 && columnId>3):
-
-    case(ultimoIndexPallinoInserito==3 && columnId>3):
-
-    case(ultimoIndexPallinoInserito==3 && columnId<3):
-
-    
-    
+      }
     }
-    
-    this.giocatoreDiTurno = 3- this.giocatoreDiTurno;
+    //console.log(idColonna);
+    //console.log(ultimoIndexPallinoInserito);   
+    //console.log(lastPallino);
+
+
+
+    this.giocatoreDiTurno = 3 - this.giocatoreDiTurno;
   }
-  
-  individuaUltimoPallino(array: number[]): number{
-    for(let i = 1; i<array.length; i++){
+
+  individuaUltimoPallino(array: number[]): number {
+    for (let i = 1; i < array.length; i++) {
       if (array[i] === 0) {
-      return i-1; 
+        return i - 1;
+      }
     }
+    return array.length - 1;
+  }
+
+  reset() {
+    if (this.flag) {
+      this.deviResettare = true;
+      this.sequenza
+      this.flag = false;
+      this.giocatoreDiTurno = 1;
     }
-    return array.length-1;
   }
 
   private router = inject(Router);
 
-  tornaHome(){
+  tornaHome() {
     this.router.navigate(['']);
 
   }

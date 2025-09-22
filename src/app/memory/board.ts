@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Card } from '../interfacce/card';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faUser, faHouse} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHouse, faArrowRotateRight} from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-board',
@@ -21,10 +21,17 @@ export class Board implements OnInit {
   lock: boolean = false;
   faUser= faUser;
   faHouse=faHouse
+  faArrowRotateRight=faArrowRotateRight;
+  fineCarte:boolean=false;
+  winGiocatore:number=0;
 
   constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.creaCarte();
+  }
+
+  creaCarte() {
     let seeds: number[] = [];
     //creo un array di seed casuali 
     while (seeds.length < 16) {
@@ -49,40 +56,6 @@ export class Board implements OnInit {
       flipped: false
     }));
   }
-
-
-
-  //   flipCard(id: number) {
-  //     const card = this.cards.find(c => c.id === id);
-  //      if (!card || card.flipped || this.contatoreClick >= 2) return;
-  //       if (card && !card.flipped) {
-  //         card.flipped = true;
-  //         this.contatoreClick++;
-  //         if (this.contatoreClick == 1) {
-  //           this.primaCardClick = card;
-  //         }
-  //         else {
-  //           if (card.seed != this.primaCardClick.seed) {
-  //             this.contatoreClick++;
-  //             card.flipped = false;
-  //             this.primaCardClick.flipped = false;
-  //             this.contatoreClick = 0;
-  //           }
-
-  //           else {
-  //             if(this.turnoGiocatore1){
-  //               this.punteggioGiocatore1++;
-  //             }
-  //             else{
-  //               this.punteggioGiocatore2++;
-  //             }
-  //             this.contatoreClick=0;
-  //           }
-  //       }
-
-  //   }
-
-  // }
 
   flipCard(id: number) {
     if (this.lock) return;
@@ -120,9 +93,37 @@ export class Board implements OnInit {
       if (this.turnoGiocatore1) this.punteggioGiocatore1++;
       else this.punteggioGiocatore2++;
       this.contatoreClick = 0;
+
+       // controlla se il gioco è finito
+      this.controllaVincitore();
     }
 
   }
+
+  controllaVincitore(){
+    if (this.punteggioGiocatore1+this.punteggioGiocatore2 >=8){
+        this.fineCarte=true;
+      if(this.punteggioGiocatore1>this.punteggioGiocatore2){
+        this.winGiocatore=1;
+      }
+      else if(this.punteggioGiocatore1<this.punteggioGiocatore2){
+        this.winGiocatore=2;
+      }
+      else{
+        this.winGiocatore=3;
+      }
+
+    }
+  }
+
+  reset(){
+    this.creaCarte();
+    this.punteggioGiocatore1=0;
+    this.punteggioGiocatore2=0;
+    this.fineCarte=false;
+    this.winGiocatore =0;
+  }
+
   private router = inject(Router);
 
   tornaHome(){

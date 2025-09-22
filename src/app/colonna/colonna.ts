@@ -1,4 +1,4 @@
-import { Component,EventEmitter,Input, Output } from '@angular/core';
+import { Component,EventEmitter,Input, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-colonna',
@@ -9,8 +9,8 @@ import { Component,EventEmitter,Input, Output } from '@angular/core';
 export class Colonna {
   @Input() giocatore!:number;
   @Output() urla = new EventEmitter<number[]>();
-  
-  
+  @Input() resetta:boolean=false;
+
   pallini:number[]=[0,0,0,0,0,0];
 
   inserisciPedina(){
@@ -23,6 +23,17 @@ export class Colonna {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['resetta'] && changes['resetta'].currentValue === true) {
+      this.resetColonna();
+    }
+  }
+
+  resetColonna(){
+    if(this.resetta){
+      this.pallini=[0,0,0,0,0,0];
+    }
+  }
   
 
 

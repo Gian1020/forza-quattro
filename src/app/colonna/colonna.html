@@ -1,5 +1,5 @@
 <div class="colonna" (click)="inserisciPedina()">
-    @for(pallino of pallini; track pallino){
+    @for(pallino of pallini; track $index){
         @switch(pallino){
             @case(0){
                 <div class="pallino"></div>

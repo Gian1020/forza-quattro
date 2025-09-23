@@ -32,7 +32,7 @@
 #titolo{
     font-size: 50px;
     font-weight: bold;
-    color: red;
+    color: yellow;
     text-align: center;
 }
 
@@ -40,6 +40,12 @@
     display: flex;
     gap: 50px;
     flex-wrap: wrap;
+}
+
+.foto{
+   width: 200px;
+   height: 254px; 
+   border-radius: 20px;
 }
 
 .card {

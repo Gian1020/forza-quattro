@@ -10,6 +10,7 @@ export class Colonna {
   @Input() giocatore!:number;
   @Output() urla = new EventEmitter<number[]>();
   @Input() resetta:boolean=false;
+  @Output() resetDone = new EventEmitter<void>();
 
   pallini:number[]=[0,0,0,0,0,0];
 
@@ -34,7 +35,4 @@ export class Colonna {
       this.pallini=[0,0,0,0,0,0];
     }
   }
-  
-
-
 }

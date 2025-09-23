@@ -28,46 +28,62 @@ export class ForzaQuattro {
   ]
   flag: boolean = false;
   deviResettare: boolean = false;
-  
-  checkWinner(idColonna: number, palliniColonna: number[]) {
-    let indexUltimoPallinoInserito = this.individuaUltimoPallino(palliniColonna);
-    //aggiorna colonna
-    this.griglia[idColonna] = palliniColonna;
+
+
+
+  controlloColonna(colonnaCliccata: number[]) {
     let sequenza: number = 0;
 
     // controllo su colonna
-    for (let pallino of palliniColonna) {
+    for (let pallino of colonnaCliccata) {
       if (pallino == this.giocatoreDiTurno) {
         sequenza++;
         if (sequenza == 4) {
           this.flag = true;
+          console.log("colonna");
           return;
+
         }
       }
       else {
         sequenza = 0;
       }
     }
+  }
 
+  controlloRiga(colonnaCliccata: number[]) {
     //controllo riga
-    sequenza = 0;
-    for (let numeroColonna in this.griglia) {
-      if (this.griglia[numeroColonna][indexUltimoPallinoInserito] == this.giocatoreDiTurno) {
+
+    let sequenza = 0;
+    let indexUltimoPallinoInserito = this.individuaUltimoPallino(colonnaCliccata);
+    console.log(indexUltimoPallinoInserito);
+
+
+    for (let i = 0; i < this.griglia.length; i++) {
+      if (this.griglia[i][indexUltimoPallinoInserito] == this.giocatoreDiTurno) {
         sequenza++;
+        console.log(`colonna ${i} → match, sequenza = ${sequenza}`);
+
         if (sequenza == 4) {
           this.flag = true;
+          sequenza = 0;
           return;
+
         }
       }
       else {
         sequenza = 0;
+        console.log(`colonna ${i} → reset sequenza = 0`);
       }
     }
+  }
 
 
-    let ultimoPallinoInserito: number = this.griglia[idColonna][indexUltimoPallinoInserito];
+  controlloDiagonale(idCol: number, colonnaCliccata: number[]) {
 
-    let col = idColonna;
+    let indexUltimoPallinoInserito = this.individuaUltimoPallino(colonnaCliccata);
+    let ultimoPallinoInserito: number = this.griglia[idCol][indexUltimoPallinoInserito];
+    let col = idCol;
     let riga = indexUltimoPallinoInserito;
     let contatore: number = 1;
 
@@ -86,17 +102,18 @@ export class ForzaQuattro {
     // diagonale basso xs
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col + i] !== undefined &&
-          this.griglia[col + i][riga + i] !== undefined &&
-          ultimoPallinoInserito == this.griglia[col + i][riga + i]) {
-          
-            contatore++;
+        this.griglia[col + i][riga + i] !== undefined &&
+        ultimoPallinoInserito == this.griglia[col + i][riga + i]) {
 
-            if(contatore==4){
-              this.flag = true;
-              return;
-            }
-      
-          } else {
+        contatore++;
+
+        if (contatore == 4) {
+          this.flag = true;
+          console.log("diagonale xs 1");
+          return;
+        }
+
+      } else {
         contatore = 1;
         break;
       }
@@ -105,37 +122,40 @@ export class ForzaQuattro {
     //diagonale alto xd
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col - i] !== undefined &&
-          this.griglia[col - i][riga - i] !== undefined &&
-          ultimoPallinoInserito == this.griglia[col - i][riga - i]) {
-      
-            contatore++;
+        this.griglia[col - i][riga - i] !== undefined &&
+        ultimoPallinoInserito == this.griglia[col - i][riga - i]) {
 
-            if(contatore==4){
-              this.flag = true;
-              return;
-            }
-        } 
+        contatore++;
+
+        if (contatore == 4) {
+          this.flag = true;
+          console.log("diagonale xd 2");
+          return;
+
+        }
+      }
       else {
         contatore = 1;
         break;
       }
     }
 
-    //diagonale alto xd
+    //diagonale alto xs
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col + i] !== undefined &&
-          this.griglia[col + i][riga - i] !== undefined &&
-          ultimoPallinoInserito == this.griglia[col + i][riga - i]) {
-        
-          contatore++;
+        this.griglia[col + i][riga - i] !== undefined &&
+        ultimoPallinoInserito == this.griglia[col + i][riga - i]) {
 
-          if(contatore==4){
-              this.flag = true;
-              return;
-            }
-      
+        contatore++;
+
+        if (contatore == 4) {
+          this.flag = true;
+          console.log("diagonale xd 2");
+          return;
+        }
+
       }
-       else {
+      else {
         contatore = 1;
         break;
       }
@@ -144,23 +164,42 @@ export class ForzaQuattro {
     //diagonale basso xd
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col - i] !== undefined &&
-          this.griglia[col - i][riga + i] !== undefined &&
-          ultimoPallinoInserito == this.griglia[col - i][riga + i]) {
-        
-            contatore++;
-            if(contatore==4){
-              this.flag = true;
-              return;
-            }
-           } 
+        this.griglia[col - i][riga + i] !== undefined &&
+        ultimoPallinoInserito == this.griglia[col - i][riga + i]) {
+
+        contatore++;
+        if (contatore == 4) {
+          this.flag = true;
+          console.log("diagonale xd 1");
+          return;
+        }
+      }
       else {
         contatore = 1;
         break;
       }
     }
-
-    this.giocatoreDiTurno = 3 - this.giocatoreDiTurno;
   }
+
+
+  checkWinner(idColonna: number, palliniColonna: number[]) {
+    if (this.flag) {
+      return;
+    }
+
+    //aggiorna colonna
+    this.griglia[idColonna] = palliniColonna;
+
+    this.controlloColonna(palliniColonna);
+
+    this.controlloRiga(palliniColonna);
+
+    this.controlloDiagonale(idColonna, palliniColonna);
+    if (!this.flag) {
+      this.giocatoreDiTurno = 3 - this.giocatoreDiTurno;
+    }
+  }
+
 
   individuaUltimoPallino(array: number[]): number {
     for (let i = 1; i < array.length; i++) {
@@ -171,15 +210,31 @@ export class ForzaQuattro {
     return array.length - 1;
   }
 
+
+
   reset() {
     if (this.flag) {
       this.deviResettare = true;
       this.flag = false;
       this.giocatoreDiTurno = 1;
-    
-    setTimeout(() => {
-      this.deviResettare = false;
-    });}
+
+
+      this.griglia = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]
+      ]
+
+      setTimeout(() => {
+        this.deviResettare = false;
+      }, 0);
+
+      console.log(this.deviResettare);
+    }
   }
 
   private router = inject(Router);

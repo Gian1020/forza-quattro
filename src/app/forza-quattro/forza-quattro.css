@@ -5,10 +5,6 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-h1 {
-    margin-top: 20px;
-}
-
 .contenitore {
     display: flex;
     justify-content: center;
@@ -28,11 +24,7 @@ h1 {
     width: 750px;
 }
 
-#riga-giocatori {
-    display: flex;
-    gap: 200px;
-    font-size: 20px;
-}
+
 
 #cont-titolo {
     display: flex;
@@ -43,13 +35,37 @@ h1 {
 }
 
 #titolo {
-    font-size: 35px;
+    font-size: 45px;
     font-weight: bold;
 }
 
 #home {
-    font-size: 30px;
+    font-size: 35px;
     display: inline-flex;
+}
+
+#riga-giocatori {
+    display: flex;
+    gap: 200px;
+    font-size: 30px;
+}
+
+.giocatore1 {
+    border: 1px solid black;
+    transform: scale(1.2);
+    /* zoom leggero */
+    transition: transform 0.2s, border 0.2s;
+    /* animazione morbida */
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.giocatore2 {
+    border: 1px solid black;
+    transform: scale(1.2);
+    transition: transform 0.2s, border 0.2s;
+    border-radius: 20px;
+    padding: 5px;
 }
 
 
@@ -99,22 +115,4 @@ h1 {
 
 .scritta-modal{
   font-size: 35px;
-}
-
-.giocatore1 {
-    border: 1px solid black;
-    transform: scale(1.2);
-    /* zoom leggero */
-    transition: transform 0.2s, border 0.2s;
-    /* animazione morbida */
-    border-radius: 20px;
-    padding: 5px;
-}
-
-.giocatore2 {
-    border: 1px solid black;
-    transform: scale(1.2);
-    transition: transform 0.2s, border 0.2s;
-    border-radius: 20px;
-    padding: 5px;
 }

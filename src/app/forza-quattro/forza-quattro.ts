@@ -33,49 +33,42 @@ export class ForzaQuattro {
 
   controlloColonna(colonnaCliccata: number[]) {
     let sequenza: number = 0;
-
+    let indexUltimoPallinoInserito = this.individuaUltimoPallino(colonnaCliccata);
+    if(!(indexUltimoPallinoInserito<3)){
     // controllo su colonna
     for (let pallino of colonnaCliccata) {
       if (pallino == this.giocatoreDiTurno) {
         sequenza++;
         if (sequenza == 4) {
           this.flag = true;
-          console.log("colonna");
           return;
-
         }
       }
       else {
         sequenza = 0;
       }
-    }
+    }}
   }
 
-  controlloRiga(colonnaCliccata: number[]) {
+  controlloRiga(idCol: number,colonnaCliccata: number[]) {
     //controllo riga
-
     let sequenza = 0;
     let indexUltimoPallinoInserito = this.individuaUltimoPallino(colonnaCliccata);
-    console.log(indexUltimoPallinoInserito);
-
 
     for (let i = 0; i < this.griglia.length; i++) {
       if (this.griglia[i][indexUltimoPallinoInserito] == this.giocatoreDiTurno) {
         sequenza++;
-        console.log(`colonna ${i} → match, sequenza = ${sequenza}`);
-
         if (sequenza == 4) {
           this.flag = true;
           sequenza = 0;
           return;
-
         }
       }
       else {
         sequenza = 0;
-        console.log(`colonna ${i} → reset sequenza = 0`);
       }
     }
+    
   }
 
 
@@ -87,29 +80,18 @@ export class ForzaQuattro {
     let riga = indexUltimoPallinoInserito;
     let contatore: number = 1;
 
-    // let pallinoDaControllare1 = this.griglia[col + 1][riga + 1];
-    // let pallinoDaControllare2 = this.griglia[col - 1][riga + 1];
-    // let pallinoDaControllare4 = this.griglia[col + 1][riga - 1];
-    // let pallinoDaControllare3 = this.griglia[col - 1][riga - 1];
-
-    //console.log("pallino alto xd", pallinoDaControllare1);
-    // console.log("pallino alto xs", pallinoDaControllare2);
-    // console.log("pallino basso xs", pallinoDaControllare3);
-    // console.log("pallino basso xd", pallinoDaControllare4);
-
-    //console.log("pallino Inserito", ultimoPallinoInserito);
-
-    // diagonale basso xs
+    if(!(idCol<3&& indexUltimoPallinoInserito>2)||!(idCol<3&&indexUltimoPallinoInserito<3)){
+    // ultimo pallino alto xd
+    // controlla la diagonale in basso sx
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col + i] !== undefined &&
         this.griglia[col + i][riga + i] !== undefined &&
         ultimoPallinoInserito == this.griglia[col + i][riga + i]) {
-
+        
         contatore++;
 
         if (contatore == 4) {
           this.flag = true;
-          console.log("diagonale xs 1");
           return;
         }
 
@@ -119,17 +101,18 @@ export class ForzaQuattro {
       }
     }
 
-    //diagonale alto xd
+    
+    //ultimo pallino basso xs
+    //controlla la digonale in alto dx
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col - i] !== undefined &&
         this.griglia[col - i][riga - i] !== undefined &&
         ultimoPallinoInserito == this.griglia[col - i][riga - i]) {
-
+      
         contatore++;
-
+      
         if (contatore == 4) {
-          this.flag = true;
-          console.log("diagonale xd 2");
+          this.flag = true;    
           return;
 
         }
@@ -138,9 +121,11 @@ export class ForzaQuattro {
         contatore = 1;
         break;
       }
-    }
+    }}
 
-    //diagonale alto xs
+    if(!(idCol<3&&indexUltimoPallinoInserito<3) || !(idCol>3&& indexUltimoPallinoInserito>3)){
+    //ultimo pallino basso xd
+    //controlla la diagonale in alto sx
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col + i] !== undefined &&
         this.griglia[col + i][riga - i] !== undefined &&
@@ -150,10 +135,8 @@ export class ForzaQuattro {
 
         if (contatore == 4) {
           this.flag = true;
-          console.log("diagonale xd 2");
           return;
         }
-
       }
       else {
         contatore = 1;
@@ -161,16 +144,16 @@ export class ForzaQuattro {
       }
     }
 
-    //diagonale basso xd
+    // ultimo pallino alto xs
+    // controlla la diagonale in basso dx
+    
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col - i] !== undefined &&
         this.griglia[col - i][riga + i] !== undefined &&
         ultimoPallinoInserito == this.griglia[col - i][riga + i]) {
-
         contatore++;
         if (contatore == 4) {
           this.flag = true;
-          console.log("diagonale xd 1");
           return;
         }
       }
@@ -178,7 +161,7 @@ export class ForzaQuattro {
         contatore = 1;
         break;
       }
-    }
+    }}
   }
 
 
@@ -192,7 +175,7 @@ export class ForzaQuattro {
 
     this.controlloColonna(palliniColonna);
 
-    this.controlloRiga(palliniColonna);
+    this.controlloRiga(idColonna,palliniColonna);
 
     this.controlloDiagonale(idColonna, palliniColonna);
     if (!this.flag) {
@@ -233,7 +216,7 @@ export class ForzaQuattro {
         this.deviResettare = false;
       }, 0);
 
-      console.log(this.deviResettare);
+      
     }
   }
 

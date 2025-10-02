@@ -28,15 +28,15 @@ export class ForzaQuattro {
   ]
   flag: boolean = false;
   deviResettare: boolean = false;
-  
-  checkWinner(idColonna: number, palliniColonna: number[]) {
-    let indexUltimoPallinoInserito = this.individuaUltimoPallino(palliniColonna);
-    //aggiorna colonna
-    this.griglia[idColonna] = palliniColonna;
-    let sequenza: number = 0;
 
+
+
+  controlloColonna(colonnaCliccata: number[]) {
+    let sequenza: number = 0;
+    let indexUltimoPallinoInserito = this.individuaUltimoPallino(colonnaCliccata);
+    if(!(indexUltimoPallinoInserito<3)){
     // controllo su colonna
-    for (let pallino of palliniColonna) {
+    for (let pallino of colonnaCliccata) {
       if (pallino == this.giocatoreDiTurno) {
         sequenza++;
         if (sequenza == 4) {
@@ -47,15 +47,20 @@ export class ForzaQuattro {
       else {
         sequenza = 0;
       }
-    }
+    }}
+  }
 
+  controlloRiga(idCol: number,colonnaCliccata: number[]) {
     //controllo riga
-    sequenza = 0;
-    for (let numeroColonna in this.griglia) {
-      if (this.griglia[numeroColonna][indexUltimoPallinoInserito] == this.giocatoreDiTurno) {
+    let sequenza = 0;
+    let indexUltimoPallinoInserito = this.individuaUltimoPallino(colonnaCliccata);
+
+    for (let i = 0; i < this.griglia.length; i++) {
+      if (this.griglia[i][indexUltimoPallinoInserito] == this.giocatoreDiTurno) {
         sequenza++;
         if (sequenza == 4) {
           this.flag = true;
+          sequenza = 0;
           return;
         }
       }
@@ -63,104 +68,121 @@ export class ForzaQuattro {
         sequenza = 0;
       }
     }
+    
+  }
 
 
-    let ultimoPallinoInserito: number = this.griglia[idColonna][indexUltimoPallinoInserito];
+  controlloDiagonale(idCol: number, colonnaCliccata: number[]) {
 
-    let col = idColonna;
+    let indexUltimoPallinoInserito = this.individuaUltimoPallino(colonnaCliccata);
+    let ultimoPallinoInserito: number = this.griglia[idCol][indexUltimoPallinoInserito];
+    let col = idCol;
     let riga = indexUltimoPallinoInserito;
     let contatore: number = 1;
 
-    // let pallinoDaControllare1 = this.griglia[col + 1][riga + 1];
-    // let pallinoDaControllare2 = this.griglia[col - 1][riga + 1];
-    // let pallinoDaControllare4 = this.griglia[col + 1][riga - 1];
-    // let pallinoDaControllare3 = this.griglia[col - 1][riga - 1];
-
-    //console.log("pallino alto xd", pallinoDaControllare1);
-    // console.log("pallino alto xs", pallinoDaControllare2);
-    // console.log("pallino basso xs", pallinoDaControllare3);
-    // console.log("pallino basso xd", pallinoDaControllare4);
-
-    //console.log("pallino Inserito", ultimoPallinoInserito);
-
-    // diagonale basso xs
+    if(!(idCol<3&& indexUltimoPallinoInserito>2)||!(idCol<3&&indexUltimoPallinoInserito<3)){
+    // ultimo pallino alto xd
+    // controlla la diagonale in basso sx
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col + i] !== undefined &&
-          this.griglia[col + i][riga + i] !== undefined &&
-          ultimoPallinoInserito == this.griglia[col + i][riga + i]) {
-          
-            contatore++;
+        this.griglia[col + i][riga + i] !== undefined &&
+        ultimoPallinoInserito == this.griglia[col + i][riga + i]) {
+        
+        contatore++;
 
-            if(contatore==4){
-              this.flag = true;
-              return;
-            }
-      
-          } else {
+        if (contatore == 4) {
+          this.flag = true;
+          return;
+        }
+
+      } else {
         contatore = 1;
         break;
       }
     }
 
-    //diagonale alto xd
+    
+    //ultimo pallino basso xs
+    //controlla la digonale in alto dx
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col - i] !== undefined &&
-          this.griglia[col - i][riga - i] !== undefined &&
-          ultimoPallinoInserito == this.griglia[col - i][riga - i]) {
+        this.griglia[col - i][riga - i] !== undefined &&
+        ultimoPallinoInserito == this.griglia[col - i][riga - i]) {
       
-            contatore++;
+        contatore++;
+      
+        if (contatore == 4) {
+          this.flag = true;    
+          return;
 
-            if(contatore==4){
-              this.flag = true;
-              return;
-            }
-        } 
+        }
+      }
+      else {
+        contatore = 1;
+        break;
+      }
+    }}
+
+    if(!(idCol<3&&indexUltimoPallinoInserito<3) || !(idCol>3&& indexUltimoPallinoInserito>3)){
+    //ultimo pallino basso xd
+    //controlla la diagonale in alto sx
+    for (let i = 1; i < 4; i++) {
+      if (this.griglia[col + i] !== undefined &&
+        this.griglia[col + i][riga - i] !== undefined &&
+        ultimoPallinoInserito == this.griglia[col + i][riga - i]) {
+
+        contatore++;
+
+        if (contatore == 4) {
+          this.flag = true;
+          return;
+        }
+      }
       else {
         contatore = 1;
         break;
       }
     }
 
-    //diagonale alto xd
-    for (let i = 1; i < 4; i++) {
-      if (this.griglia[col + i] !== undefined &&
-          this.griglia[col + i][riga - i] !== undefined &&
-          ultimoPallinoInserito == this.griglia[col + i][riga - i]) {
-        
-          contatore++;
-
-          if(contatore==4){
-              this.flag = true;
-              return;
-            }
-      
-      }
-       else {
-        contatore = 1;
-        break;
-      }
-    }
-
-    //diagonale basso xd
+    // ultimo pallino alto xs
+    // controlla la diagonale in basso dx
+    
     for (let i = 1; i < 4; i++) {
       if (this.griglia[col - i] !== undefined &&
-          this.griglia[col - i][riga + i] !== undefined &&
-          ultimoPallinoInserito == this.griglia[col - i][riga + i]) {
-        
-            contatore++;
-            if(contatore==4){
-              this.flag = true;
-              return;
-            }
-           } 
+        this.griglia[col - i][riga + i] !== undefined &&
+        ultimoPallinoInserito == this.griglia[col - i][riga + i]) {
+        contatore++;
+        if (contatore == 4) {
+          this.flag = true;
+          return;
+        }
+      }
       else {
         contatore = 1;
         break;
       }
-    }
-
-    this.giocatoreDiTurno = 3 - this.giocatoreDiTurno;
+    }}
   }
+
+
+  checkWinner(idColonna: number, palliniColonna: number[]) {
+    if (this.flag) {
+      return;
+    }
+
+    //aggiorna colonna
+    this.griglia[idColonna] = palliniColonna;
+
+    this.controlloColonna(palliniColonna);
+
+    this.controlloRiga(idColonna,palliniColonna);
+
+    this.controlloDiagonale(idColonna, palliniColonna);
+    if (!this.flag) {
+      this.giocatoreDiTurno = 3 - this.giocatoreDiTurno;
+    }
+  }
+
 
   individuaUltimoPallino(array: number[]): number {
     for (let i = 1; i < array.length; i++) {
@@ -171,15 +193,31 @@ export class ForzaQuattro {
     return array.length - 1;
   }
 
+
+
   reset() {
     if (this.flag) {
       this.deviResettare = true;
       this.flag = false;
       this.giocatoreDiTurno = 1;
-    
-    setTimeout(() => {
-      this.deviResettare = false;
-    });}
+
+
+      this.griglia = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]
+      ]
+
+      setTimeout(() => {
+        this.deviResettare = false;
+      }, 0);
+
+      
+    }
   }
 
   private router = inject(Router);

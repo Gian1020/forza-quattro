@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 50px;
 }
 
 #header{
@@ -18,6 +19,25 @@
     right: 0px;
     bottom: 0px;
 }
+
+.💀 {
+  font-size: 48px;
+  margin: 0px 10px 10px 0px;
+  
+}
+
+.💀:after {
+  content: attr(data-content);
+}
+
+.💀:hover:after {
+  content: attr(data-hover-content);
+}
+
+.💀:active:after {
+  content: attr(data-active-content);
+}
+
 #titolo{
     font-size: 50px;
     font-weight: bold;
